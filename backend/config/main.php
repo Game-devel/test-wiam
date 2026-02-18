@@ -11,11 +11,17 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'diContainer'],
     'modules' => [],
     'components' => [
+        'diContainer' => [
+            'class' => \backend\bootstrap\ContainerBootstrap::class,
+        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'parsers' => [
+                'application/json' => \yii\web\JsonParser::class,
+            ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -38,14 +44,14 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'POST requests' => 'request/create',
+                'GET processor' => 'processor/index',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
